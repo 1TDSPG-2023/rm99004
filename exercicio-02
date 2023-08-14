@@ -1,0 +1,160 @@
+
+Javascript
+const tarefaForm = document.getElementById('formulario');
+const tarefaLista = document.getElementById('lista-de-tarefas');
+const tarefas = [];
+
+
+function adicionarTarefa() {
+
+    const descricao = document.getElementById('id-descricao-tarefa').value;
+    const autor = document.getElementById('id-autor-tarefa').value;
+    const departamento = document.getElementById('id-departamento-tarefa').value;
+    const importancia = document.getElementById('id-importancia-tarefa').value;
+
+   
+
+    if (descricao && autor && departamento && (
+        importancia.toLowerCase() == 'alta' ||
+        importancia.toLowerCase() == 'media' ||
+        importancia.toLowerCase() == 'baixa')) {
+        const novaTarefa = {
+            descricao,
+            autor,
+            departamento,
+            importancia };
+
+        const valor = document.getElementById('id-valor-tarefa').value;
+        if (valor) {
+            novaTarefa.valor = valor;
+        }
+
+       
+
+        const duracao = document.getElementById('id-duracao-tarefa').value;
+        if (duracao) {
+            novaTarefa.duracao = duracao;
+        }
+
+       
+        tarefas.push(novaTarefa);
+        atualizarListaTarefas();
+    } else {
+        alert('Preencha todos os campos obrigatórios!');
+    }
+}
+
+function removerTarefa(index) {
+    if (index >= 0 && index < tarefas.length) {
+        tarefas.splice(index, 1);
+        atualizarListaTarefas();
+    } else {
+        alert('Tarefa não encontrada!');
+    }
+}
+
+
+function atualizarListaTarefas() {
+    tarefaLista.innerHTML = '<h2>Lista de Tarefas</h2>';
+    for (let i = 0; i < tarefas.length; i++) {
+        const tarefa = tarefas[i];
+        const item = document.createElement('li');
+        item.innerHTML = `
+
+            Descrição: ${tarefa.descricao} | Autor: ${tarefa.autor} | Departamento: ${tarefa.departamento} | Importância: ${tarefa.importancia}
+            ${tarefa.valor ? '| Valor: ' + tarefa.valor : ''} ${tarefa.duracao ? '| Duração: ' + tarefa.duracao : ''}
+            <button id="btn-remover" onclick="removerTarefa(${i})"><strong>x</strong></button>`;
+        tarefaLista.appendChild(item);
+    }
+}
+
+
+function filtrarTarefas() {
+    const ordemImportancia = [
+        'alta',
+        'media',
+        'baixa'
+    ];
+
+    const tarefasOrdenadas = tarefas.slice().sort((a, b) => {
+        const indexA = ordemImportancia.indexOf(a.importancia);
+        const indexB = ordemImportancia.indexOf(b.importancia);
+        return indexA - indexB;
+    });
+
+   
+
+    const descricaoTarefasOrdenadas = tarefasOrdenadas.map(tarefa => tarefa.descricao);
+
+    tarefaLista.innerHTML = '';
+    for (let i = 0; i < descricaoTarefasOrdenadas.length; i++) {
+        const item = document.createElement('li');
+        item.textContent = descricaoTarefasOrdenadas[i];
+        tarefaLista.appendChild(item);
+    }
+
+}
+
+ 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rm99632</title>
+    <script src="./js/script.js" defer></script>
+    <link rel="stylesheet" href="./CSS/estilo.css">
+</head>
+<body>
+
+   
+
+    <!-- Formulário para adicionar novas tarefas -->
+
+    <div id="criador-de-tarefas">
+        <h1>Exercicio 01</h1>
+        <form id='formulario' action="#" method="get" onsubmit="return false">
+            <div>
+                <label for="id-descricao-tarefa">Descrição:</label>
+                <input type="text" name="descricaoTarefa" id="id-descricao-tarefa">
+            </div>
+
+            <div>
+                <label for="id-autor-tarefa">Autor:</label>
+                <input type="text" name="autorTarefa" id="id-autor-tarefa">
+            </div>
+
+            <div>
+                <label for="id-departamento-tarefa">Departamento:</label>
+                <input type="text" name="departamentoTarefa" id="id-departamento-tarefa">
+            </div>
+
+            <div>
+                <label for="id-importancia-tarefa">Importancia:</label>
+                <input type="text" name="importanciaTarefa" id="id-importancia-tarefa" placeholder="alta/media/baixa">
+            </div>
+
+            <div>
+                <label for="id-valor-tarefa">Valor:</label>
+                <input type="text" name="valorTarefa" id="id-valor-tarefa">
+            </div>
+
+            <div>
+                <label for="id-duracao-tarefa">Duração:</label>
+                <input type="text" name="duracaoTarefa" id="id-duracao-tarefa">
+            </div>
+            <div class="tarefa-btns">
+                <button id="btn-add-tarefa" type="button" onclick="adicionarTarefa()">Adicionar</button>
+                <button id="btn-filtrar-tarefa" type="button" onclick="filtrarTarefas()">Filtrar por Importancia</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de tarefas adicionadas -->
+    <ul id="lista-de-tarefas">
+        <h2>Lista de Tarefas</h2>
+        <!-- As tarefas adicionadas serão exibidas aqui -->
+    </ul>
+</body>
+</html>

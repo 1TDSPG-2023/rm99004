@@ -1,0 +1,57 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#formulario {
+    display: grid;
+}
+
+#formulario > div{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 5px;
+}
+
+#formulario > div > label {
+    margin-right: 20px;
+}
+
+#criador-de-tarefas, #lista-de-tarefas {
+    padding: 0 10px;
+    height: 100vh;
+    border: 2px solid #d0d0d0;
+    background-color: #f9f9f9;
+}
+
+button {
+    color: #fff;
+    background-color: #25ca2d;
+    border: 1px solid #119b11;
+    margin: 2px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0e8202;
+}
+
+#btn-remover {
+    background-color: #c92222;
+    border: 1px solid #940f0f;
+    width: 30px;
+    height: 30px;
+
+}
+
+li {
+    list-style: none;
+}
